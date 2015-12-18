@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript">
+       
+        //string templating and initialization
+        
+            var masterString = '';
+
+            var pageHead="";
+            pageHead += "<table class=\"lesson-content\">";
+
+        
+
+            var mainGoalTop="";
+            mainGoalTop += "  <tr>";
+            mainGoalTop += "    <td>";
+            mainGoalTop += "      <h3>MAIN GOAL<\/h3>";
+            mainGoalTop += "    <\/td>";
+            mainGoalTop += "    <td>";
+            mainGoalTop += "    ";
+
+            var mainGoalBottom="";
+            mainGoalBottom += "    <\/td>";
+            mainGoalBottom += "  <\/tr>";
+
+            var materialsTop="";
+            materialsTop += " <tr>";
+            materialsTop += "    <td>";
+            materialsTop += "      <h3>MATERIALS<\/h3>";
+            materialsTop += "    <\/td>";
+            materialsTop += "    <td>";
+            materialsTop += "      <table class=\"material-box\">";
+            materialsTop += "        <tr>";
+            materialsTop += "          <td>";
+            materialsTop += "            <img src=\"http:\/\/wallpaperfast.com\/wp-content\/uploads\/2013\/05\/Apple-Chalk-Board-Desktop-Wallpaper.jpg\"><\/img>";
+            materialsTop += "            <p>DMA Provided PC or Laptop<\/p>";
+            materialsTop += "          <\/td>";
+            materialsTop += "          <td><\/td>";
+            materialsTop += "          <td>";
+            materialsTop += "            <img src=\"http:\/\/wallpaperfast.com\/wp-content\/uploads\/2013\/05\/Apple-Chalk-Board-Desktop-Wallpaper.jpg\"><\/img>";
+            materialsTop += "            <p>DMA Provided PC or Laptop DMA Provided PC or Laptop<\/p>";
+            materialsTop += "          <\/td>";
+            materialsTop += "          <td>";
+
+            var materialsBottom="";
+            materialsBottom += "          <\/td>";
+            materialsBottom += "        <\/tr>";
+            materialsBottom += "      <\/table>";
+            materialsBottom += "    <\/td>";
+            materialsBottom += "  <\/tr>";
+
+            var keyTermsTop="";
+            keyTermsTop += "  <tr>";
+            keyTermsTop += "    <td>";
+            keyTermsTop += "      <h3>KEY TERMS<\/h3>";
+            keyTermsTop += "    <\/td>";
+            keyTermsTop += "    <td>";
+            keyTermsTop += "      <table class=\"glossary\">";
+            keyTermsTop += "        <tr>";
+            keyTermsTop += "          <td>Array<\/td>";
+            keyTermsTop += "          <td>";
+
+            var keyTermsBottom="";
+            keyTermsBottom += "          <\/td>";
+            keyTermsBottom += "        <\/tr>";
+            keyTermsBottom += "      <\/table>";
+            keyTermsBottom += "    <\/td>";
+            keyTermsBottom += "  <\/tr>";
+
+
+            var teacherTop="";
+            teacherTop += "  <tr>";
+            teacherTop += "    <td>";
+            teacherTop += "      <h3>TEACHER PREP<\/h3>";
+            teacherTop += "    <\/td>";
+            teacherTop += "    <td>";
+            teacherTop += "";
+
+            var teacherBottom="";
+            teacherBottom += "    <\/td>";
+            teacherBottom += "  <\/tr>";
+
+            var lessonTop="";
+            lessonTop += "  <tr>";
+            lessonTop += "    <td>";
+            lessonTop += "      <h3>LESSON<\/h3>";
+            lessonTop += "    <\/td>";
+            lessonTop += "    <td>";
+            lessonTop += "     ";
+           
+
+            var lessonBottom="";
+            lessonBottom += "    <\/td>";
+            lessonBottom += "  <\/tr>";
+            lessonBottom += "";
+
+            var taTop="";
+            taTop += "";
+            taTop += "  <tr>";
+            taTop += "    <td>";
+            taTop += "      <h3>TEACHING ASSISTANTS<\/h3>";
+            taTop += "    <\/td>";
+            taTop += "    <td>";
+            taTop += "";
+
+            var taBottom="";
+            taBottom += "    <\/td>";
+            taBottom += "  <\/tr>";
+            taBottom += "";
+
+            var advancedTop="";
+            advancedTop += "<tr>";
+            advancedTop += "    <td>";
+            advancedTop += "      <h3>ADVANCED EXTENSION<\/h3>";
+            advancedTop += "    <\/td>";
+            advancedTop += "    <td>";
+
+            var advancedBottom="";
+            advancedBottom += "<\/td>";
+            advancedBottom += "  <\/tr>";
+
+            var pageEnd="";
+            pageEnd += "<\/table>";
+
+
+
+
+
+        $(document).ready(function() {
+
+            
+
+            $('.send').on('click', function() {
+               
+                masterString = $('.draft').val();
+
+                var newFunc = function(word, target) {
+
+                    //should check for doubles of desired section
+
+                    //find desired section
+                    var pos = target.search(word);
+
+                    var continueBool = true;
+
+                    //skip past closing /td and find first open td
+                    var reg = /<td[^>]*>/g;
+                    reg.lastIndex = pos;
+
+                    var result = reg.exec(masterString);
+                   
+                    //set pos to lastIndex of regex
+
+                    pos = reg.lastIndex;
+
+                    var trCounter = 1;
+
+                    for (i = pos, j = 0; j < 50000 && continueBool == true; i++, j++) {
+
+                        if (/<tr/.test(masterString.substring(i, i + 3))) {
+                            trCounter++;
+                        } else if (/<\/tr/.test(masterString.substring(i, i + 4))) {
+                            trCounter--;
+                            if (trCounter == 0) {
+                                console.log("awesome. this works, change it to the boolean.");
+                                console.log(trCounter + ' ' + word);
+                                console.log(masterString.substring(i-554, i + 554));
+                                continueBool = false;
+                            }
+                        }
+                    }
+
+                    console.log(trCounter + '\n' + 'whaaat');
+
+                    // use lastIndexOf() to find position of last </td>, modify i/the return word accordingly
+
+                    var returnWord = target.substring(pos, i);
+                    i = masterString.lastIndexOf('</td>', i);
+
+                    returnWord = target.substring(pos, i);
+                    returnWord = returnWord.replace(/background-color: #cfc; padding: 60px 10px;/g, '');
+                        //could keep the ignore me divs in css doc 
+                    return returnWord;
+                }
+
+
+
+
+                var mainGoalString = mainGoalTop + newFunc('>Main Goal<', masterString) + mainGoalBottom;
+                        //new css styles
+                  mainGoalString = mainGoalString.replace(/objectives2"/, 'objectives2" style="color: white; width: 100%; vertical-align: top;"');
+                  mainGoalString = mainGoalString.replace(/objectiveHead2"/, 'objectiveHead2" style="padding: 20px 40px; background: #FFAD3B; font-weight: bold; font-size: 17px;"');
+                  mainGoalString = mainGoalString.replace(/>Students Will Be Able To:</i, '>STUDENTS WILL BE ABLE TO<');
+                  mainGoalString = mainGoalString.replace(/objectiveBody2"/, 'objectiveBody2" style="background: #FF9210; padding: 16px 40px; font-size: 16px; font-family: \'maven pro\', arial; "');
+                  mainGoalString = mainGoalString.replace(/<li/g, '<li style="margin-bottom: 20px; list-style: none;"');
+
+                  console.log('\n this is mainGoalString \n' + mainGoalString);
+
+                var materialsString = '';
+                  if (/2>Materials</.test(masterString)) { 
+                    materialsString = materialsTop + newFunc('>Materials<', masterString) + materialsBottom;
+                  };
+
+
+
+                var keyPointsString = '';
+                if (/>Key Terms</.test(masterString)) {
+                  keyPointsString = keyTermsTop + newFunc('>Key Terms<', masterString) + keyTermsBottom;
+                  console.log('werk1');
+                }
+
+                var teacherPrepString = '';
+                if (/>Teacher Prep</.test(masterString)) {
+                  teacherPrepString = teacherTop + newFunc('>Teacher Prep<', masterString) + teacherBottom;
+                  console.log('werkPrep');
+                }                
+
+                var lessonString = lessonTop + newFunc(">Lesson<", masterString) + lessonBottom;
+
+                var advancedString = '';
+                  if (/Advanced Extension</.test(masterString)) {
+                    advancedString = advancedTop + newFunc('>Advanced Extension<', masterString) + advancedBottom;
+                    console.log('werk2');
+                    };
+
+
+                var finalString = pageHead + mainGoalString + materialsString + keyPointsString + teacherPrepString + lessonString + advancedString + pageEnd;
+
+
+                //clear the area and show the final string - (WHY IS THIS WORKING...)
+                $('textarea').val('');
+                $('textarea').val(finalString + '');
+            });
+
+            
+
+            $('.sherp').on('click', function() {
+               
+              masterString = $('.tuck').val();
+
+       
+                var testFunction = function(word, target) {
+
+                    //find desired section
+                    var pos = target.search(word);
+
+                    console.log('the position index for ' + word + ' is: ' + pos);
+                    var continueBool = true;
+
+                    //skip past closing /td and find first open td
+                    var reg = /<td[^>]*>/g;
+                    reg.lastIndex = pos;
+                    var result = reg.exec(masterString);
+                   
+                    //set pos to lastIndex of regex
+
+                    pos = reg.lastIndex;
+
+                    var trCounter = 1;
+
+                    for (i = pos, j = 0; j < 50000 && continueBool == true; i++, j++) {
+
+                        if (/<tr/.test(masterString.substring(i, i + 3))) {
+                            trCounter++;
+                        } else if (/<\/tr/.test(masterString.substring(i, i + 4))) {
+                            trCounter--;
+                            if (trCounter == 0) {
+                                console.log("awesome. this works, change it to the boolean.");
+                                console.log(trCounter + ' ' + word);
+                                console.log(masterString.substring(i-554, i + 554));
+                                continueBool = false;
+                            }
+                        }
+                    }
+
+                    console.log(trCounter + '\n' + 'whaaat');
+
+                    // use lastIndexOf() to find position of last </td>, modify i/the return word accordingly
+
+                    var returnWord = target.substring(pos, i);
+                    i = masterString.lastIndexOf('</td>', i);
+
+                    returnWord = target.substring(pos, i);
+                    returnWord = returnWord.replace(/background-color: #cfc; padding: 60px 10px;/g, '');
+
+                    return returnWord;
+                }
+
+
+
+                var headStyles = '<head>' + masterString.match(/<style type="text\/css">[^<]*<\/style>/) + '<\/head>';
+
+              
+
+                var materialsString = '';
+                if (/>Extra Materials</.test(masterString)) { 
+                  materialsString = materialsTop + testFunction('>Extra Materials<', masterString) + materialsBottom;
+                };
+
+                var keyPointsString = '';
+                if (/>Key Terms</.test(masterString)) {
+                  keyPointsString = keyTermsTop + testFunction('>Key Terms<', masterString) + keyTermsBottom;
+                  console.log('werk1');
+                }
+
+                var teacherPrepString = '';
+                if (/>Teacher Prep</.test(masterString)) {
+                  teacherPrepString = teacherTop + testFunction('>Teacher Prep<', masterString) + teacherBottom;
+                  console.log('werkPrep');
+                }                
+
+                var format_steps_in_lesson = function(tug) {
+
+                        var stepsTop = "";
+                        stepsTop += "      <table class=\"blue-box\">";
+                        stepsTop += "        <tr>";
+                        stepsTop += "          <td>";
+                        stepsTop += "            <h5 style=\"color:white;\">";
+                        stepsTop += "              STEPS IN THIS LESSON";
+                        stepsTop += "            <\/h5>";
+                        stepsTop += "            <ul>";
+
+                        var stepsBottom = "";
+                        stepsBottom += "<\/ul>";
+                        stepsBottom += "          <\/td>";
+                        stepsBottom += "        <\/tr>";
+                        stepsBottom += "      <\/table>";
+
+                        if (/Steps in This Lesson/.test(tug)) {
+                            var reg = /Steps in This Lesson/g;
+                            var receive = reg.exec(tug);
+
+                            var stringBeg = reg.lastIndex;
+                            var stringEnd = tug.search(/<\/ol>/);
+                            var tempString = tug.substring(stringBeg, stringEnd + 5);
+                            console.log(tempString);
+
+                            var liArray = [];
+                            var loopRegex = />[^<]+<\//g;
+                            var loop_holder = null;
+                            var controlBool = true;
+
+                            var li_String = '';
+
+                            for (i = 0; i < 10 && controlBool == true; i++) {
+                                if ((loop_holder = loopRegex.exec(tempString)) !== null) {
+                                    liArray[i] = loop_holder[0];
+                                } else {
+                                    controlBool = false;
+                                }
+                            }
+
+                            console.log('just after the first for loop: ' + liArray);
+
+                            for (i = 0; i < liArray.length && i < 50; i++) {
+
+                                var testWord = liArray[i];
+                                var j = 0;
+                                var h = testWord.length;
+                                var continueBool = true;
+                                var continue2 = true;
+
+
+                                do {
+                                    if (/[A-Za-z1-9\.]/.test(testWord[j])) {
+                                        continueBool = false;
+
+                                    } else {
+                                        j++;
+                                    }
+
+                                } while (continueBool == true);
+
+                                //second for loop - find end
+                                do {
+                                    if (/[\w\.]/.test(testWord[h - 1])) {
+                                        continue2 = false;
+
+                                    } else {
+                                        h--;
+                                    }
+
+                                } while (continue2 == true);
+
+
+                                liArray[i] = testWord.substring(j, h);
+
+                            }
+
+
+                            for (i = 0; i < liArray.length; i++) {
+                                li_String += '<li style=\"color:#3D8EFF;\">' + liArray[i] + '</li>';
+                            }
+
+
+
+                            stepsTop += li_String + stepsBottom;
+
+                            var firstP = tug.lastIndexOf('<p', stringBeg);
+                            var replaceString = tug.substring(firstP, stringEnd + 5);
+                            tug = tug.replace(replaceString, stepsTop);
+                            return tug;
+                        } else {
+                            return tug;
+                        }
+                }
+
+                var lessonString = lessonTop + testFunction(">Lesson<", masterString) + lessonBottom;
+
+                lessonString = format_steps_in_lesson(lessonString);
+
+                var advancedString = '';
+                if (/Advanced Extension</.test(masterString)) {
+                  advancedString = advancedTop + testFunction('>Advanced Extension<', masterString) + advancedBottom;
+                  console.log('werk2');
+                  };
+
+                var taString = '';
+                if (/>Assistants</.test(masterString)) {
+                    taString = taTop + testFunction('>Assistants<', masterString) + taBottom;
+                }
+
+                var mainGoalString = mainGoalTop + testFunction('>Main Goal<', masterString) + mainGoalBottom;
+
+                var formatGoals = function (test) {
+                  
+                       var beg = test.search('Students will be able to:');
+                            
+                            var reg = /<\/td>/g;
+                            reg.lastIndex = beg;
+                            var holder = reg.exec(test);
+                            var orangeDiv = test.substring(beg, holder.index);
+
+                            var testReg = />[^<]+<\//g;
+                            var myArray = [];
+                            var nuArray = [];
+
+
+                            console.log(nuArray[0]);
+
+                            for (i = 0;
+                                (myArray = testReg.exec(orangeDiv)) !== null && i < 32; i++) {
+
+                                nuArray[i] = myArray[0];
+                                console.log(nuArray[i]);
+                            }
+
+
+                            for (i = 0; i < nuArray.length && i < 50; i++) {
+                                var testWord = nuArray[i];
+                                var j = 0;
+                                var h = testWord.length;
+                                var continueBool = true;
+                                var continue2 = true;
+
+                                do {
+                                    if (/[A-Za-z1-9\.]/.test(testWord[j])) {
+                                        continueBool = false;
+                                        console.log(j + 'inside');
+                                    } else {
+                                        j++;
+                                    }
+
+                                } while (continueBool == true);
+
+                                //second for loop - find end
+                                do {
+                                    if (/[\w\.]/.test(testWord[h - 1])) {
+                                        continue2 = false;
+                                        console.log(h + 'inside' + testWord[h]);
+                                    } else {
+                                        h--;
+                                    }
+
+                                } while (continue2 == true);
+
+
+                                nuArray[i] = testWord.substring(j, h);
+                            }
+
+                            console.log(nuArray[0]);
+
+                            var buildString = "";
+                            buildString += "<table style=\"color: white; width: 100%;\">";
+                            buildString += "<tbody>";
+                            buildString += "<tr style=\"vertical-align: top;\">";
+                            buildString += "<td style=\"background: #FF9210;\">";
+                            buildString += "<p style=\"padding: 20px 40px; color: white; background: #FFAD3B; font-weight: bold; font-size: 17px;\">STUDENTS WILL BE ABLE TO<\/p>";
+                            buildString += "<ul style=\"padding: 16px 40px; font-family: 'maven pro', arial; font-size: 16px;\">";
+
+                            var liItem = '';
+
+                            endString = '';
+                            endString += "<\/ul>";
+                            endString += "<\/td>";
+                            endString += "<\/tr>";
+                            endString += "<\/tbody>";
+                            endString += "<\/table>";
+
+
+
+                            for (k = 0; k < nuArray.length; k++) {
+                                liItem += '<li style=\"margin-bottom: 20px; color: white; list-style: none;\">' + nuArray[k] + '<\/li>';
+                            }
+
+                            console.log(liItem);
+
+                            buildString += liItem + endString;
+
+                            //replace the section in the original string
+                            //  something like
+                            var firstP = test.lastIndexOf('<p', beg);
+                            var replaceString = test.substring(firstP, holder.index);
+                            // using beg, change last index of lastIndexOf and search for <p
+                            //starting there, use holder.index as an endpoint for a substring.
+                            //use that substring as a target in a replace() function
+
+                            test = test.replace(replaceString, buildString); 
+
+                            return test;
+                                            }
+
+                mainGoalString = formatGoals(mainGoalString);
+
+                                 
+
+                var finalString = headStyles + '<body>' + pageHead + mainGoalString + materialsString + keyPointsString + teacherPrepString + lessonString + taString + advancedString + pageEnd + '<\/body>';
+                 
+
+                //clear the area and show the final string - (WHY IS THIS WORKING...)
+                $('textarea').val('');
+                $('textarea').val(finalString + '');
+
+
+            });
+
+            
+          
+                                
+
+
+
+
+        });
+    </script>
+
+
+</head>
+
+<body>
+
+
+
+    <h2 style="margin-left: auto; margin-right: auto; text-align: center;">Curriculum Updater</h2>
+
+    <div style="background-color: #FFA500; margin-left: auto; margin-right: auto; width: 250px; border-radius: 5px;">
+        <input class="draft" type="text" style="display: block; margin-left: auto; margin-right: auto;" />
+        <button class="send" style="display: block; margin-left: auto; margin-right: auto;">Click here to convert your curriculum</button>
+    </div>
+
+    </br>
+
+    <div style="background-color: #00c5ff; margin-left: auto; margin-right: auto; width: 295px; border-radius: 5px; ">
+        <textarea rows="4" cols="38" class="return" style="display: block; margin-left: auto; margin-right: auto;">...and it comes out here!</textarea>
+    </div>
+
+    <div style="background-color: #FFA500; margin-left: auto; margin-right: auto; width: 250px; border-radius: 5px;">
+        <input class="tuck" type="text" style="display: block; margin-left: auto; margin-right: auto;" />
+        <button class="sherp" style="display: block; margin-left: auto; margin-right: auto;">Click here to use the google docs script</button>
+    </div>
+    <br>
+    <br>
+      <div style="background-color: #bbA500; margin-left: auto; margin-right: auto; width: 250px; border-radius: 5px;">
+        <input class="empty_field" type="text" style="display: block; margin-left: auto; margin-right: auto;" />
+        <button class="debug" style="display: block; margin-left: auto; margin-right: auto;">Debuggin Here</button>
+    </div>
+
+
+</body>
+
+</html>
